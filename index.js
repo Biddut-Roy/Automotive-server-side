@@ -73,6 +73,11 @@ async function run() {
     // my card data
     const cardData = client.db("insertDB").collection("mycard");
 
+    app.get("/mycard", async(req, res) => {
+        const result = await cardData.find().toArray();
+        res.send(result);
+    });
+
     app.post("/mycard" , async(req , res )=>{
         const my = req.body ;
         const result = await cardData.insertOne(my);
