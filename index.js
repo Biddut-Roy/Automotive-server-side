@@ -38,6 +38,22 @@ async function run() {
     })
     
     
+
+
+    const top3 = client.db("insertDB").collection("top3");
+
+    app.get("/top3" , async(req, res) => {
+        const result = await top3.find().toArray();
+         res.send(result);
+    })
+
+    app.post("/top3" , async(req, res) => {
+        const body = req.body;
+        const result = await top3.insertOne(body);
+        res.send(result);
+    })
+    
+    
  
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
