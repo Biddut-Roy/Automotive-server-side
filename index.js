@@ -102,23 +102,6 @@ async function run() {
         res.send(result);
     })
 
-    app.patch('/mycard/:id', async(req , res)=>{
-        const id = req.params.id;
-        const body = req.body;
-        const filter = { _id: id };
-        const updateUser = {
-            $set : {
-                name: body.name,
-                price: body.price,
-                photo: body.photo,
-                description: body.description,
-                rating: body.rating
-            }
-        }
-        const result = await cardData.updateOne(filter , updateUser);
-        res.send(result);
-    })
-
     app.delete("/mycard/:id" , async(req , res)=>{
         const id = req.params.id;
         const query = { _id: id}
