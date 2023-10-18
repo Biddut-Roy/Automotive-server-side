@@ -28,7 +28,6 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     
-    await client.connect();
 
     // get a Brand Data
     const database = client.db("insertDB").collection("Brand");
@@ -83,7 +82,6 @@ async function run() {
             }
         }
         const result = await modelsData.updateOne(filter , updateUser);
-        console.log(filter);
         res.send(result);
     })
 
@@ -107,13 +105,8 @@ async function run() {
         const query = { _id: id}
         const result = await cardData.deleteOne(query);
         res.send(result);
-        console.log(id);
     })
     
-    
- 
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
 
     // await client.close();
