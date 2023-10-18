@@ -83,6 +83,14 @@ async function run() {
         const result = await cardData.insertOne(my);
         res.send(result);
     })
+
+    app.delete("/mycard/:id" , async(req , res)=>{
+        const id = req.params.id;
+        const query = { _id: id}
+        const result = await cardData.deleteOne(query);
+        res.send(result);
+        console.log(id);
+    })
     
     
  
