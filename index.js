@@ -36,10 +36,7 @@ async function run() {
         const result = await database.find().toArray();
          res.send(result);
     })
-    
-    
-
-
+    //  top 3 car data
     const top3 = client.db("insertDB").collection("top3");
 
     app.get("/top3" , async(req, res) => {
@@ -47,10 +44,14 @@ async function run() {
          res.send(result);
     })
 
-    app.post("/top3" , async(req, res) => {
+    //  add data to server
+    const modelsData = client.db("insertDB").collection("models");
+
+    app.post("/models" , async(req, res) => {
         const body = req.body;
-        const result = await top3.insertOne(body);
+        const result = await modelsData.insertOne(body);
         res.send(result);
+        console.log(body);
     })
     
     
