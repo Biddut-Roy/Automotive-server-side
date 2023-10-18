@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const cors = require('cors');
 const port = process.env.PORT || 5000 ;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
@@ -12,8 +13,7 @@ app.use(express.json());
 
 // data base 
 
-
-
+// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qnw0w8y.mongodb.net/?retryWrites=true&w=majority`;
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qnw0w8y.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -29,6 +29,15 @@ async function run() {
   try {
     
     await client.connect();
+
+    // get a Brand Data
+    const database = client.db("insertDB").collection("Brand");
+    app.get("/brand" , async(req, res) => {
+        const result = await database.find().toArray();
+         res.send(result);
+    })
+    
+    
  
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
@@ -40,6 +49,10 @@ async function run() {
 run().catch(console.dir);
 
 
+app.get('/', (req , res) => {
+    res.send(' checking')
+    
+});
 
 app.listen(port , (req , res) => {
     console.log("Connected to port " + port);
