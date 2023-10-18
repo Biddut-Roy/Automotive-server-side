@@ -58,7 +58,6 @@ async function run() {
 
     app.get("/models/id/:id", async (req, res) => {
         const id = req.params.id;
-        console.log(id);
         const query = { _id: new ObjectId(id)}
         const result = await modelsData.findOne(query)
         res.send(result);
@@ -69,6 +68,25 @@ async function run() {
         const result = await modelsData.insertOne(body);
         res.send(result);
     })
+
+    app.put("/models/id/:id", async (req, res) => {
+        const id = req.params.id;
+        const body = req.body;
+        const filter = { _id: new ObjectId(id)};
+        const updateUser = {
+            $set : {
+                name: body.name,
+                price: body.price,
+                photo: body.photo,
+                description: body.description,
+                rating: body.rating
+            }
+        }
+        const result = await modelsData.updateOne(filter , updateUser);
+        console.log(filter);
+        res.send(result);
+    })
+
 
     // my card data
     const cardData = client.db("insertDB").collection("mycard");
@@ -81,6 +99,23 @@ async function run() {
     app.post("/mycard" , async(req , res )=>{
         const my = req.body ;
         const result = await cardData.insertOne(my);
+        res.send(result);
+    })
+
+    app.patch('/mycard/:id', async(req , res)=>{
+        const id = req.params.id;
+        const body = req.body;
+        const filter = { _id: id };
+        const updateUser = {
+            $set : {
+                name: body.name,
+                price: body.price,
+                photo: body.photo,
+                description: body.description,
+                rating: body.rating
+            }
+        }
+        const result = await cardData.updateOne(filter , updateUser);
         res.send(result);
     })
 
