@@ -69,6 +69,15 @@ async function run() {
         const result = await modelsData.insertOne(body);
         res.send(result);
     })
+
+    // my card data
+    const cardData = client.db("insertDB").collection("mycard");
+
+    app.post("/mycard" , async(req , res )=>{
+        const my = req.body ;
+        const result = await cardData.insertOne(my);
+        res.send(result);
+    })
     
     
  
