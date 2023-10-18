@@ -47,11 +47,19 @@ async function run() {
     //  add data to server
     const modelsData = client.db("insertDB").collection("models");
 
+    app.get("/models/:name", async (req, res) => {
+        const name = req.params.name;
+        const filter = {
+            brand: name
+          }
+        const result = await modelsData.find(filter).toArray();
+        res.send(result);
+    })
+
     app.post("/models" , async(req, res) => {
         const body = req.body;
         const result = await modelsData.insertOne(body);
         res.send(result);
-        console.log(body);
     })
     
     
